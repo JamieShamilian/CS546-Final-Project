@@ -1,7 +1,7 @@
 # CS546-Final-Project
 Project for CS546 
 
-release - complete functional source
+beta - complete functional source
 
 # Group Name: 
 Personal
@@ -83,6 +83,8 @@ TODO pages found after login.....
 
 
 Screen Shots:
+
+![npm install seed start](./docs/images/npmInstallSeedStart.jpg)
 
 ![Login Page](./docs/images/PetAdoptionLogin.jpg)
 

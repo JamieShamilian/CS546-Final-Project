@@ -1,5 +1,7 @@
 const { ObjectId } = require("mongodb");
 const mongoCollections = require("../config/mongoCollections");
+const validation = require('../validation');
+
 const ordersCol = mongoCollections.orders;
 
 
@@ -52,7 +54,7 @@ async function orderPet(userId,petId,pay,up) {
 async function updateOrder(up) {
 
   let id = up.transId;
-  let transId = up.tansId;
+  let transId = up.transId;
 
   logDebug("Update Order "+ id);
 
@@ -60,10 +62,9 @@ async function updateOrder(up) {
       _id: new ObjectId(transId),
       transId: transId,
       petId: up.petId,
-      userId: userId,
+      userId: up.userId,
       payment: up.payment,
       date : up.date,
-      breed : up.breed,
       status: up.status
   };
 
@@ -135,26 +136,58 @@ if (found == false) {
 
 logDebug(orderMatch);
 
-let rtn = {
-  petId: orderMatch.petId,
-  petName: orderMatch.petName  ,
-  petType:orderMatch.petType  ,
-  color:orderMatch.color  ,
-  breed:orderMatch.breed  ,
-  age:orderMatch.age  ,
-  description:orderMatch.description  ,
-  img:orderMatch.img  ,
-  price:orderMatch.price  ,
-  status:orderMatch.status
-  }
+return(orderMatch) ;
 
-return rtn ;
+}
+
+async function getOrderArray() {
+
+  logDebug("Get order Array by admin");
+
+  
+let orderMatch = {};
+let found = false;
+
+const ordersCollection = await ordersCol();
+let query = { };
+logDebug( query );
+let proj = { 
+    _id: 1, 
+    transId: 1,
+    petId: 1, 
+    userId: 1,
+    payment: 1,
+    date: 1  ,
+    status: 1  
+    }
+
+let order = await ordersCollection.find( query, { projection: proj  }).toArray();
+
+rtnArray = [];
+order.forEach((element) => {
+  rtnArray.push(element.transId);
+  /*
+  if (element.transId == transId) { 
+    orderMatch.transId = element.transId;
+    orderMatch.petId = element.petId;
+    orderMatch.userId  = element.userId ;
+    orderMatch.payment  = element.payment ;
+    orderMatch.date  = element.date ;
+    orderMatch.status  = element.status ;
+    
+    found = true;
+    logDebug(element);
+  }
+  */
+});
+
+return rtnArray ;
 }
 
 
 async function deleteOrder(transId) {
 
-logDebug("delete Pet");
+logDebug("delete order not implemented");
 
 }
 
@@ -162,6 +195,7 @@ logDebug("delete Pet");
 module.exports = {
   orderPet,
   getOrder,
-  updateOrder
+  updateOrder,
+  getOrderArray
 };
   

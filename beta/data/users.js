@@ -1,6 +1,7 @@
 const { ObjectId } = require("mongodb");
 const mongoCollections = require("../config/mongoCollections");
 const usersCol = mongoCollections.users;
+const validation = require('../validation');
 
 const bcrypt = require("bcryptjs");
 
@@ -225,6 +226,16 @@ async function setUser( up ) {
   if (userId.search(/^[a-z0-9]{4,}$/) < 0)
     throw "userId Illegal chars or Not long enough";
 
+    up.firstName=validation.checkFirstName(up.firstName);
+    up.lastName=validation.checkLastName(up.lastName);
+    up.age=validation.checkAge(up.age);
+    up.streetAddress=validation.checkStreet(up.streetAddress);
+    up.city=validation.checkCity(up.city);
+    up.state=validation.checkState(up.state);
+    up.zipcode=validation.checkZipcode(up.zipcode);
+    up.mobilePhone=validation.checkPhoneNumber(up.mobilePhone);
+    up.email = validation.checkEmail(up.email);
+
     const newUser = {
       firstName: up.firstName,
       lastName : up.lastName,
@@ -274,10 +285,11 @@ async function orderUser(userId, transId) {
   let rtn = await getUser(userId);
   if ( Array.isArray( rtn.orderArray ) == false ) 
     rtn.orderArray = [];
-  rtn.orderArray.push(transId);
-
-  let rtn2 = await setUser(rtn);
-
+  if ( transId != 0 ) {
+    rtn.orderArray.push(transId);
+    let rtn2 = await setUser(rtn);
+  }
+  
   return ( rtn.orderArray );
 
 }

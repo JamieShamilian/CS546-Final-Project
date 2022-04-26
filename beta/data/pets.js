@@ -1,5 +1,6 @@
 const { ObjectId } = require("mongodb");
 const mongoCollections = require("../config/mongoCollections");
+const validation = require('../validation');
 const petsCol = mongoCollections.pets;
 
 
@@ -15,9 +16,8 @@ function logit(str) {
 
 async function addPet(petId,up) {
 
-    let id = up._id;
 
-    logDebug("Create pet "+ up._id );
+    logDebug("Create new pet " );
 
     const newPet = {
         _id: new ObjectId(),
@@ -37,6 +37,15 @@ async function addPet(petId,up) {
     newPet.petId = newPet._id.toString();
     petId = newPet.petId;
     const petCollection = await petsCol();
+
+    validation.checkPetName(up.petName);
+    validation.checkPetColor(up.color);
+    validation.checkPetType(up.petType);
+    validation.checkPetAge(up.age);
+    validation.checkPetBreed(up.breed);
+    validation.checkPetPrice(up.price);
+    validation.checkPetStatus(up.status);
+
 
     let insertInfo;
     try {
@@ -79,6 +88,14 @@ async function updatePet(petId,up) {
   //newPet.petId = newPet._id.toString();
   //petId = newPet.petId;
   const petCollection = await petsCol();
+
+  validation.checkPetName(up.petName);
+  validation.checkPetColor(up.color);
+  validation.checkPetType(up.petType);
+  validation.checkPetAge(up.age);
+  validation.checkPetBreed(up.breed);
+  validation.checkPetPrice(up.price);
+  validation.checkPetStatus(up.status);
 
   let updateInfo;
   try {

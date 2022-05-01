@@ -29,6 +29,10 @@ Personal
 - add payment methods
 - search for pets to purchase
 - select pet to purchase
+- add pet to favorite
+- like pet
+- show favorites
+- comment on pets
 - order pet with payment button
 - view your order 
 
@@ -52,6 +56,9 @@ Jamie Shamilian
 - added data/payments.js to support credit card transactions
 - added data/pets.js to support searching lists of pets
 - added data/orders.js to support orders to purchase pets
+- added likes
+- added favorites
+- added comments
 
 TODO:
 developer

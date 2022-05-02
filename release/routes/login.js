@@ -4,7 +4,7 @@ const users = require('../data/users');
 const bcrypt = require('bcryptjs');
 
 
-const debug = false;
+const debug = true;
 const logDebug = function logDebug(str) {
   if (debug) console.error(str);
 };
@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
 
 
 router.post('/login', async (req, res) => {
-    let userId = req.body.userId;
+    let userId = req.body.userId.toLowerCase();
     let passWord = req.body.password;
 
     try {
@@ -78,7 +78,7 @@ router.get('/signup', (req, res) => {
 
 
 router.post('/signup', async (req, res) => {
-    let userId = req.body.userId;
+    let userId = req.body.userId.toLowerCase();
     let passWord = req.body.password;
 
     logDebug("look for "+ userId);

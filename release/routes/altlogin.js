@@ -103,7 +103,7 @@ router.get('/signup', (req, res) => {
     } else { // user is not authenticated
         logit( req.method + ' ' + req.originalUrl + ' (Non-Authenticated User)')
         // error = "Please log in with valid credentials.";
-        res.status(200).render('../views/pages/signup', {});
+        res.status(200).render('../views/pages/altsignup', {});
         return;
     }
 });
@@ -118,10 +118,20 @@ router.post('/signup', async (req, res) => {
 
     try {
 
-		validation.checkUserName(userId);
+        validation.checkUserName(userId);
         validation.checkPassWord(passWord);
 
-        let rtn = await users.createUser (userId, passWord );
+        up.firstName=validation.checkFirstName(up.firstName);
+        up.lastName=validation.checkLastName(up.lastName);
+        up.age=validation.checkAge(up.age);
+        up.streetAddress=validation.checkStreet(up.streetAddress);
+        up.city=validation.checkCity(up.city);
+        up.state=validation.checkState(up.state);
+        up.zipcode=validation.checkZipcode(up.zipcode);
+        up.mobilePhone=validation.checkPhoneNumber(up.mobilePhone);
+        up.email = validation.checkEmail(up.email);
+
+        let rtn = await users.createUserWithProfile (userId, passWord, up );
         if ( rtn.userInserted == true ) {
             logDebug( "Pass OK " + req.method + ' ' + req.originalUrl + ' (Authenticated User)')
             // set the user to userId from userMatch
@@ -138,7 +148,7 @@ router.post('/signup', async (req, res) => {
         logDebug( "Catch2 Error "+ req.method + ' ' + req.originalUrl + ' (Non-Authenticated User)')
         errorMsg = "Login failed try again";
         //res.status(400).render('../views/pages/signup', { error1 : errorMsg });
-        res.status(400).render('../views/pages/signup', { error1 : e });
+        res.status(400).render('../views/pages/altsignup', { error1 : e });
         return;
     }
 

@@ -17,7 +17,7 @@ release - complete functional source
 - from shell npm install
 - from shell npm run seed ( creates users admin, jamie10, fills profile, fills payments ... )   
 - from shell npm start
-  - from shell npm start alt ( alternate sign-up page with profile)
+  - from shell npm start alt ( alternate sign-up page with profile) ** only supported on v1.3x
 
 # running instructions manual
 - From browser open http://localhost:3000 

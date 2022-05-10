@@ -50,7 +50,7 @@ async function createUser(userId, passWord) {
   
   logDebug ( "Create user "+userId + " was found = " + found );
 
-  if ( found == true) throw "Name in Use Already";
+  if ( found == true) throw "Sorry, that name is in use already! Go log in";
 
   let hashPass = await bcrypt.hash(passWord, salt);
 
@@ -120,10 +120,10 @@ async function checkUser(userId, passWord) {
 async function getUser(userId) {
   let userMatch = {};
   let found = false;
-  
-   if ( userId == null )
+
+  if ( userId == null )
     throw "Login: userId not defined";
-  
+
   userId = userId.toLowerCase();
 
   logDebug("checkUser");
@@ -208,7 +208,7 @@ async function createUserWithProfile(userId, passWord, up) {
 
   let found = await checkuserId(userId);
 
-  if ( found == true) throw "Name in Use Already";
+  if ( found == true) throw " Sorry, that name is in use already! Go log in";
   //if (checkuserId(userId) == true) throw "Name in Use Already";
 
   up.firstName=validation.checkFirstName(up.firstName);

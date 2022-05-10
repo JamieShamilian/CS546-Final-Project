@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
         logit(req.method + ' ' + req.originalUrl + ' (Authenticated User)')
     } else { // user is not authenticated
         logit(req.method + ' ' + req.originalUrl + ' (Non-Authenticated User)')
-        errorMsg = "Please login as user admin ";
+        errorMsg = "You have to login to access this page!";
         res.status(200).render('../views/pages/login', { error1: errorMsg });
         return;
     }
@@ -39,7 +39,7 @@ router.get('/', async (req, res) => {
     rtn.petSearchArray = [];
 
     if (searchArray.length == 0 ) {
-        rtn.error1 = "Favorite Pet List = No pets of that type";   
+        rtn.error1 = "You have no favorites, feel free to add some!";   
     } else {
         //rtn.petSearchArray = searchArray;
         for ( let i = 0 ; i < searchArray.length; i++ ) {
@@ -50,6 +50,7 @@ router.get('/', async (req, res) => {
     }
 
     if ( (req.session.user) && (req.session.user == "admin") ) { // user is authenticated
+        rtn.admin = "true";
         res.status(200).render('../views/pages/updatePetList', rtn);
     } else {
         res.status(200).render('../views/pages/selectPetList', rtn);

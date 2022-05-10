@@ -343,7 +343,7 @@ async function delFavoritesUser(userId, petId) {
         newlist.push(petId);
     }
     rtn.favorites = newlist;
-    let rtn2 = await setUser(rtn);
+    let rtn2 = await setFavUser(rtn);
   }
   
   return ( rtn.favorites );
